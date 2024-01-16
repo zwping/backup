@@ -1,0 +1,36 @@
+{
+    "name": "zwping/backup",
+    "alias": "",
+    "description": "Backup extension for dcat-admin",
+    "type": "library",
+    "keywords": ["dcat-admin", "backup"],
+    "homepage": "https://github.com/zwping/backup",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "zwping",
+            "email": "1101558280@qq.com"
+        },
+        {
+            "name": "z-song",
+            "email": "zosong@126.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0",
+        "dcat/laravel-admin": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Encore\\Admin\\Backup\\": "src/"
+        }
+    },
+    "extra": {
+        "dcat-admin": "Encore\\Admin\\Backup\\BackupServiceProvider",
+        "laravel": {
+            "providers": [
+                "Encore\\Admin\\Backup\\BackupServiceProvider"
+            ]
+        }
+    }
+}
