@@ -41,13 +41,13 @@
 				<td colspan="8">
 					<ul class="todo-list ui-sortable">
 						@foreach($backup['files'] as $file)
-						<li>
+						<li class="{{ $file['name'] }}">
 							<span class="text">{{ $file['path'] }}</span> <sub>{{ $file['size'] }}</sub>
 							<!-- Emphasis label -->
 
 							<div class="tools">
 								<a target="_blank" href="{{ route('dcat.admin.backup-download', ['disk' => $backup['disk'], 'file' => $backup[0].'/'.$file['path']]) }}"><i class="fa fa-download"></i></a>
-								<a data-url="{{ route('dcat.admin.backup-delete', ['disk' => $backup['disk'], 'file' => $backup[0].'/'.$file['path']]) }}" class="backup-delete" ><i class="fa fa-trash-o"></i></a>
+								<a data-name="{{ $file['name'] }}" data-url="{{ route('dcat.admin.backup-delete', ['disk' => $backup['disk'], 'file' => $backup[0].'/'.$file['path']]) }}" class="backup-delete" ><i class="fa fa-trash-o"></i></a>
 							</div>
 						</li>
 						@endforeach
@@ -104,24 +104,26 @@
     });
 
     $(".backup-delete").click(function() {
-		let btn = $(this);
-		let url = btn.data('url')
+		let btn		= $(this);
+		let url		= btn.data('url')
+		let name	= btn.data('name')
 
-		btn.buttonLoading()
-		$.delete({
-			url,
-			data: {
-				_token: Dcat.token,
-			},
-			success: (result) => {
-				Dcat.reload()
-				if (typeof result === 'object') {
-					Dcat.success(result.message)
-				} else {
-					Dcat.error(result.message)
-				}
-				btn.buttonLoading(false)
-			},
+		Dcat.confirm('确认删除备份文件', `${name}.zip`, () => {
+			$.delete({
+				url,
+				data: {
+					_token: Dcat.token,
+				},
+				success: (result) => {
+					// Dcat.reload()
+					if (result.status) {
+						$(`.${name}`).remove()
+						Dcat.success(result.message)
+					} else {
+						Dcat.error(result.message)
+					}
+				},
+			})
 		})
 
 		return false;

@@ -40,6 +40,7 @@ class BackupController extends Controller {
                 $size = method_exists($backup, 'sizeInBytes') ? $backup->sizeInBytes() : $backup->size();
 
                 return [
+                    'name' => basename($backup->path(), '.zip'),
                     'path' => basename($backup->path()),
                     'date' => $backup->date()->format('Y-m-d H:i:s'),
                     'size' => \Spatie\Backup\Helpers\Format::humanReadableSize($size),
@@ -51,8 +52,8 @@ class BackupController extends Controller {
         }
 
         return $content
-            ->title('Title')
-            ->description('Description')
+            ->title('备份管理')
+            ->description("--only-db & debug ? '--disable-notifications' : ''")
             ->body(Admin::view('zwping.backup::index', [
                 'backups'   => $rows,
             ]));
@@ -73,7 +74,7 @@ class BackupController extends Controller {
             // dump_binary_path: mysqldumo路径
             // 默认位置 macos: /usr/local/bin linux: /usr/bin, 未将mysqldump软链到默认位置, 会报mysqldump: command not found
             // start the backup process
-            Artisan::call('backup:run --disable-notifications --only-db');
+            Artisan::call('backup:run '. (config('app.debug') ? '--disable-notifications ': '') .'--only-db');
 
             $output = Artisan::output();
 
