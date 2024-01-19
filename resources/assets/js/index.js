@@ -1,26 +1,59 @@
-(function (w, $) {
-    function ExtensionDemo(options) {
-        this.options = $.extend({
-            $el: $('.demo'),
-        }, options);
 
-        this.init(this.options);
-    }
+$(function () {
+	
+    $(".backup-run").click(function() {
+        var $btn = $(this);
+        $btn.button('loading');
 
-    ExtensionDemo.prototype = {
-        init: function (options) {
-            options.$el.on('click', function () {
-                Dcat.success($(this).text());
-            });
+        NProgress.start();
+        $.ajax({
+            url: $btn.attr('href'),
+            data : {
+                _token: LA.token
+            },
+            method: 'POST',
+            success: function (data){
 
-            console.log('Done.');
-        },
-    };
+                if (data.status) {
+                    $('.output-box').removeClass('hide');
+                    $('.output-box .output-body').html(data.message)
+                }
 
-    $.fn.extensionDemo = function (options) {
-        options = options || {};
-        options.$el = $(this);
+                $btn.button('reset');
+                NProgress.done();
+            }
+        });
 
-        return new ExtensionDemo(options);
-    };
-})(window, jQuery);
+        return false;
+    });
+
+    $(".backup-delete").click(function() {
+
+        var $btn = $(this);
+
+        $.ajax({
+            url: $btn.attr('href'),
+            data : {
+                _token: LA.token
+            },
+            method: 'DELETE',
+            success: function (data){
+
+                $.pjax.reload('#pjax-container');
+
+                if (typeof data === 'object') {
+                    if (data.status) {
+                        toastr.success(data.message);
+                    } else {
+                        toastr.error(data.message);
+                    }
+                }
+
+                $btn.button('reset');
+            }
+        });
+
+        return false;
+    });
+
+});
