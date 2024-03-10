@@ -43,7 +43,7 @@ class BackupServiceProvider extends ServiceProvider
 	 * */
     protected $menu = [
         [
-            'title' => '备份管理',
+            'title' => 'Backup',
             'uri'   => 'backup',
             'icon'  => 'fa-copy',
         ],
