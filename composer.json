@@ -3,7 +3,7 @@
     "alias": "",
     "description": "Backup extension for dcat-admin",
     "type": "library",
-    "keywords": ["dcat-admin", "backup"],
+    "keywords": ["dcat-admin", "backup", "backup"],
     "homepage": "https://github.com/zwping/backup",
     "license": "MIT",
     "authors": [

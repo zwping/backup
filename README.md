@@ -1,8 +1,7 @@
-# Dcat Admin Extension
+# laravel-backup的后台管理
+> [nova版](https://github.com/spatie/nova-backup-tool)
 
 [![](https://img.shields.io/packagist/v/zwping/backup.svg)](https://packagist.org/packages/zwping/backup)
-
-后台管理[spatie/laravel-backup](https://github.com/spatie/laravel-backup)的管理界面。[nova版](https://github.com/spatie/nova-backup-tool)
 
 ## 截图
 
